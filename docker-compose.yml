@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+    flyway:
+        image: flyway/flyway
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./migrations:/flyway/sql:ro
+        depends_on: 
+            - db
+        entrypoint: /bin/sh
+        environment:
+            - FLYWAY_USER=root
+            - FLYWAY_PASSWORD=badpassword
+            - FLYWAY_URL=jdbc:mysql://db/
+            - FLYWAY_SCHEMAS=paulas-demo
+
+    db:
+        image: mysql:5.7
+        environment:
+            - MYSQL_ROOT_PASSWORD=badpassword
+        ports:
+            - 3306:3306
